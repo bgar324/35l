@@ -1,0 +1,13 @@
+#!/bin/sh
+
+tmp=${TMPDIR:-/tmp}/myspell.$$ 
+LC_ALL=C iconv -f UTF-8 -t ASCII//TRANSLIT < sorted.words |
+  tr -cs "A-Za-z0-9./&'-" '\n' |
+  sort -u > "$tmp"
+
+LC_ALL=C iconv -f UTF-8 -t ASCII//TRANSLIT |
+  tr -cs "A-Za-z0-9./&'-" '\n' |
+  sort -u |
+  comm -23 - "$tmp"
+
+rm -f "$tmp"
